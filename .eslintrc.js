@@ -37,7 +37,7 @@ module.exports = {
     // 禁止额外的分号
     'no-extra-semi': 2,
     // 必须使用 4 空格缩进
-    'indent': [2, 4],
+    'indent': [2, 2],
     // 禁止使用 tabs
     // @off 不限制
     'no-tabs': 0,
@@ -158,7 +158,7 @@ module.exports = {
     // 禁止在构造函数中，在调用 super() 之前使用 this 或 super
     "no-this-before-super": 2,
     // vue中script标签缩进
-    "vue/script-indent": ["error", 4, { "baseIndent": 1 }]
+    "vue/script-indent": ["error", 2, { "baseIndent": 1 }]
   },
   "overrides": [
     {
