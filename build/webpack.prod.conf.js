@@ -12,6 +12,33 @@ const OptimizeCSSPlugin = require('optimize-css-assets-webpack-plugin')
 const UglifyJsPlugin = require('uglifyjs-webpack-plugin')
 const MiniCssExtractPlugin = require('mini-css-extract-plugin')
 
+const entries = utils.getEntries(path.join(__dirname, '../src/modules/**/main.js'))
+const chunks = Object.keys(entries)
+const htmlPlugins = []
+
+// 生产环境，生成各模块html页面
+chunks.forEach((chunk, index) => {
+  htmlPlugins.push(
+    new HtmlWebpackPlugin({
+      filename: `${chunk}.html`,
+      template: `${path.dirname(entries[chunk])}/template.html`,
+      inject: true,
+      chunks: [chunk, 'vendors', 'async-vendors', 'manifest'],
+      minify: {
+        removeComments: true,
+        collapseWhitespace: true,
+        removeAttributeQuotes: true,
+        collapseBooleanAttributes: true,
+        removeScriptTypeAttributes: true
+        // more options:
+        // https://github.com/kangax/html-minifier#options-quick-reference
+      },
+      // necessary to consistently work with multiple chunks via CommonsChunkPlugin
+      chunksSortMode: 'dependency'
+    })
+  )
+}) 
+
 const webpackConfig = merge(baseWebpackConfig, {
   mode: 'production',
   output: {
@@ -82,22 +109,23 @@ const webpackConfig = merge(baseWebpackConfig, {
     // generate dist index.html with correct asset hash for caching.
     // you can customize output by editing /index.html
     // see https://github.com/ampedandwired/html-webpack-plugin
-    new HtmlWebpackPlugin({
-      filename: config.build.index,
-      template: `index.html`,
-      inject: true,
-      minify: {
-        removeComments: true,
-        collapseWhitespace: true,
-        removeAttributeQuotes: true,
-        collapseBooleanAttributes: true,
-        removeScriptTypeAttributes: true
-        // more options:
-        // https://github.com/kangax/html-minifier#options-quick-reference
-      },
-      // necessary to consistently work with multiple chunks via CommonsChunkPlugin
-      chunksSortMode: 'dependency'
-    })
+    ...htmlPlugins,
+    // new HtmlWebpackPlugin({
+    //   filename: config.build.index,
+    //   template: `index.html`,
+    //   inject: true,
+    //   minify: {
+    //     removeComments: true,
+    //     collapseWhitespace: true,
+    //     removeAttributeQuotes: true,
+    //     collapseBooleanAttributes: true,
+    //     removeScriptTypeAttributes: true
+    //     // more options:
+    //     // https://github.com/kangax/html-minifier#options-quick-reference
+    //   },
+    //   // necessary to consistently work with multiple chunks via CommonsChunkPlugin
+    //   chunksSortMode: 'dependency'
+    // })
     // keep module.id stable when vendor modules does not change
     new webpack.HashedModuleIdsPlugin(),
 
