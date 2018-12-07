@@ -26,25 +26,6 @@ const webpackConfig = merge(baseWebpackConfig, {
       extract: true,
       usePostCSS: true
     })
-    // rules: [
-    //   {
-    //     test: /\.css$/,
-    //     use: [
-    //       MiniCssExtractPlugin.loader,
-    //       'css-loader', 
-    //       'postcss-loader'
-    //     ]        
-    //   },
-    //   {
-    //     test: /\.scss$/,
-    //     use: [
-    //       MiniCssExtractPlugin.loader,
-    //       'css-loader', 
-    //       'postcss-loader',
-    //       'sass-loader'
-    //     ]        
-    //   }  
-    // ]
   },
   performance: {
     hints: false

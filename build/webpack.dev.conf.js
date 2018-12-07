@@ -13,23 +13,25 @@ const portfinder = require('portfinder')
 const HOST = process.env.HOST
 const PORT = process.env.PORT && Number(process.env.PORT)
 
+const entries = utils.getEntries(path.join(__dirname, '../src/modules/**/main.js'))
+const chunks = Object.keys(entries)
+const htmlPlugins = []
+
+// 按各模块html模板生成页面
+chunks.forEach((chunk) => {
+  htmlPlugins.push(
+    new HtmlWebpackPlugin({
+      filename: `${chunk}.html`,
+      template: `${path.dirname(entries[chunk])}/template.html`,
+      inject: true
+    }),
+  )
+})
+
 const devWebpackConfig = merge(baseWebpackConfig, {
   mode:'development',
   module: {
     rules: utils.styleLoaders({ sourceMap: config.dev.cssSourceMap, usePostCSS: true })
-    // rules: [
-    //   {
-    //     test: /\.css$/,
-    //     use: [
-    //       'vue-style-loader',
-    //       'css-loader'
-    //     ]        
-    //   },
-    //   {
-    //     test: /\.scss$/,
-    //     use: [ 'vue-style-loader', 'css-loader', 'sass-loader' ]
-    //   }  
-    // ]
   },
   // cheap-module-eval-source-map is faster for development
   devtool: config.dev.devtool,
@@ -62,11 +64,7 @@ const devWebpackConfig = merge(baseWebpackConfig, {
   plugins: [
     new webpack.HotModuleReplacementPlugin(),
     // https://github.com/ampedandwired/html-webpack-plugin
-    new HtmlWebpackPlugin({
-      filename: 'index.html',
-      template: 'index.html',
-      inject: true
-    }),
+    ...htmlPlugins,
     // copy custom static assets
     new CopyWebpackPlugin([
       {
