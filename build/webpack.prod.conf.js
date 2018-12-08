@@ -7,12 +7,11 @@ const merge = require('webpack-merge')
 const baseWebpackConfig = require('./webpack.base.conf')
 const CopyWebpackPlugin = require('copy-webpack-plugin')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
-// const ExtractTextPlugin = require('extract-text-webpack-plugin')
 const OptimizeCSSPlugin = require('optimize-css-assets-webpack-plugin')
 const UglifyJsPlugin = require('uglifyjs-webpack-plugin')
 const MiniCssExtractPlugin = require('mini-css-extract-plugin')
 
-const entries = utils.getEntries(path.join(__dirname, '../src/modules/**/main.js'))
+const entries = utils.getEntries(path.join(__dirname, '../src/pages/**/main.js'))
 const chunks = Object.keys(entries)
 const htmlPlugins = []
 
@@ -110,29 +109,13 @@ const webpackConfig = merge(baseWebpackConfig, {
     // you can customize output by editing /index.html
     // see https://github.com/ampedandwired/html-webpack-plugin
     ...htmlPlugins,
-    // new HtmlWebpackPlugin({
-    //   filename: config.build.index,
-    //   template: `index.html`,
-    //   inject: true,
-    //   minify: {
-    //     removeComments: true,
-    //     collapseWhitespace: true,
-    //     removeAttributeQuotes: true,
-    //     collapseBooleanAttributes: true,
-    //     removeScriptTypeAttributes: true
-    //     // more options:
-    //     // https://github.com/kangax/html-minifier#options-quick-reference
-    //   },
-    //   // necessary to consistently work with multiple chunks via CommonsChunkPlugin
-    //   chunksSortMode: 'dependency'
-    // })
     // keep module.id stable when vendor modules does not change
     new webpack.HashedModuleIdsPlugin(),
 
     // copy custom static assets
     new CopyWebpackPlugin([
       {
-        from: path.resolve(__dirname, '../assets'),
+        from: path.resolve(__dirname, '../static'),
         to: config.build.assetsSubDirectory,
         ignore: ['.*']
       }

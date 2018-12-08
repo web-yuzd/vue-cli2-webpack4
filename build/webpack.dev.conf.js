@@ -13,7 +13,7 @@ const portfinder = require('portfinder')
 const HOST = process.env.HOST
 const PORT = process.env.PORT && Number(process.env.PORT)
 
-const entries = utils.getEntries(path.join(__dirname, '../src/modules/**/main.js'))
+const entries = utils.getEntries(path.join(__dirname, '../src/pages/**/main.js'))
 const chunks = Object.keys(entries)
 const htmlPlugins = []
 

@@ -2,10 +2,13 @@
 // (runtime-only or standalone) has been set in webpack.base.conf with an alias.
 import Vue from 'vue';
 import VueRouter from 'vue-router';
+import iView from 'iview';
 import App from './App';
 import Routes from './routes';
+import 'iview/dist/styles/iview.css';
 
 Vue.use(VueRouter);
+Vue.use(iView);
 
 const router = new VueRouter({
   routes: Routes,
