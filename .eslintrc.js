@@ -44,7 +44,7 @@ module.exports = {
     // 禁止使用 var，必须用 let 或 const，暂时不限制
     'no-var': 0,
     // 禁止定义不使用的变量
-    'no-unused-vars': [2,
+    'no-unused-vars': [1,
       {
         'vars': 'all', // 变量定义必须被使用
         'args': 'none', // 对于函数形参不检测
@@ -160,6 +160,9 @@ module.exports = {
     // vue中script标签缩进
     "vue/script-indent": ["error", 2, {
       "baseIndent": 1
+    }],
+    'vue/no-parsing-error': [2, {
+      'x-invalid-end-tag': false
     }]
   },
   "overrides": [{

@@ -2,12 +2,15 @@
 // (runtime-only or standalone) has been set in webpack.base.conf with an alias.
 import Vue from 'vue';
 import VueRouter from 'vue-router';
+import Vuex from 'vuex';
 import iView from 'iview';
 import App from './App';
 import Routes from './routes';
+import Store from './store';
 import 'iview/dist/styles/iview.css';
 
 Vue.use(VueRouter);
+Vue.use(Vuex);
 Vue.use(iView);
 
 const router = new VueRouter({
@@ -25,12 +28,15 @@ const router = new VueRouter({
   }
 });
 
+const store = new Vuex.Store(Store);
+
 Vue.config.productionTip = false;
 
 /* eslint-disable no-new */
 new Vue({
   el: '#app',
   router,
+  store,
   components: {
     App
   },
